@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Delivery Finder</h1>
+        <form id="upload-form" class="text-center">
+            <div class="form-group">
+                <input type="file" id="upload-input" name="file" class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Detect</button>
+        </form>
+        <div id="response" class="text-center mt-4"></div>
+    </div>
+
+    <script>
+        document.getElementById("upload-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            var formElement = document.getElementById("upload-form");
+            var formData = new FormData(formElement);
+
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Success:", data);
+                var imageElement = document.createElement("img");
+                imageElement.src = data.image_path;
+                imageElement.classList.add("img-fluid");
+                document.getElementById("response").innerHTML = "";
+                document.getElementById("response").appendChild(imageElement);
+
+                var textElement = document.createElement("p");
+                textElement.textContent = data.text;
+                document.getElementById("response").appendChild(textElement);
+
+                var textElement1 = document.createElement("p");
+                textElement1.textContent = data.text1;
+                document.getElementById("response").appendChild(textElement1);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>

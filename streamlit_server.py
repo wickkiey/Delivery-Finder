@@ -40,7 +40,7 @@ if uploaded_file is not None:
     classification_result = []
     
     for cropped_image in cropped_images:
-        classification_result.append(predict_image_class(cropped_image,clf_model))
+        classification_result.append(predict_image_class(cropped_image,clf_model,thresh=.215))
         
     st.image(output_image, caption='Uploaded Image.', use_column_width=True)
     

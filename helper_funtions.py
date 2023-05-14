@@ -9,8 +9,9 @@ import time
 def get_cropped_images(image,hub_model):
     
     if image is not None:
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (320, 320))
+        output_image = image.copy()
         image = image[np.newaxis, ...]
         # image = tf.image.convert_image_dtype(image, tf.float32)[tf.newaxis, ...]
         start_time = time.time()
@@ -26,12 +27,12 @@ def get_cropped_images(image,hub_model):
         human_results['detection_scores'] = result['detection_scores'][human_idx]
         
         cropped_results = []
-        output_image = image.copy()
+        counter = 0
         for i in range(len(human_results['detection_boxes'])):
             box = human_results['detection_boxes'][i]
             box = [int(x * 320) for x in box]
             conf_score = human_results['detection_scores'][i]
-            if conf_score > 0.5:
+            if conf_score > 0.65:
                 # write to output folder as image
                 cropped_img = image[0][box[0]:box[2], box[1]:box[3]]
                 if (cropped_img.shape[0] > 10) and (cropped_img.shape[1] > 10):
@@ -40,6 +41,9 @@ def get_cropped_images(image,hub_model):
                     
                     # draw bounding box
                     cv2.rectangle(output_image, (box[1], box[0]), (box[3], box[2]), (0, 255, 0), 2)
+                    # add counder as text inside the box
+                    cv2.putText(output_image, str(counter), (box[1], box[0]+40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                    counter += 1
                     
         return cropped_results, output_image
                  
