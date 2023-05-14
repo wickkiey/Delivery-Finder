@@ -7,10 +7,8 @@ import tensorflow_hub as hub
 from helper_funtions import get_cropped_images, predict_image_class
 
 
-st.title("Streamlit Server")
 
-
-st.header("Delivery Finder")
+st.title("Delivery Finder")
 
 st.write("Welcome to the app")
 
@@ -40,8 +38,15 @@ if uploaded_file is not None:
     classification_result = []
     
     for cropped_image in cropped_images:
-        classification_result.append(predict_image_class(cropped_image,clf_model,thresh=.215))
-        
+        classification_result.append(predict_image_class(cropped_image,clf_model,thresh=.21))
+    
+    st.header("Detected Humans")
     st.image(output_image, caption='Uploaded Image.', use_column_width=True)
     
+    if len(classification_result) > 0:
+        st.header("Human Detected !")
+    else:
+        st.header("No Human Detected !")
+    
+    st.header("Brand Detected")
     st.write(classification_result)
