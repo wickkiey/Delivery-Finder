@@ -4,7 +4,6 @@ import os
 from PIL import Image
 import tensorflow as tf
 import tensorflow_hub as hub
-import cv2
 from helper_funtions import get_cropped_images, predict_image_class
 
 
