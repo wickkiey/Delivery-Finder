@@ -33,4 +33,10 @@ Fastapi Server URL : http://34.93.156.69:8000/
 
 
 
+### Code file
+data_prep.ipynb  :  Data Preparation and Preprocessing from the downloaded google image for classification model. 
+tf_classifer.ipynb :  Training and Validation of the classification model. Classes considered 'zomato' and 'other'.
+helper_functions.py  :  Helper functions for Tensorflow hub model with Person detection, and classification model inference.
+stream_server.py  :  Streamlit server for the web app.
+fastapi_server.py  :  Fastapi server for the web app.
 
